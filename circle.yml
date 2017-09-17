@@ -128,26 +128,15 @@ jobs:
       - store_test_results:
           path: /opt/workspace/app/build/test-results
 
-  deploy:
-    <<: *container_config
+  post_comment:
+    docker:
+      - image: circleci/ruby:2.3
     steps:
-      - *attach_workspace
-
-      - restore_cache:
-          <<: *general_cache_key
 
       - run:
-          name: Deploy to Play Store
+          name: Comment to github
           command: |
-            ./scripts/ci_deploy.sh ${UPLOAD_KEYSTORE_FILE_URL} ${PUBLISH_CERT_FILE_URL} ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_BRANCH}
-
-      - store_artifacts:
-          path: /opt/workspace/app/build/outputs/apk/
-          destination: apks/
-
-      - store_artifacts:
-          path: /opt/workspace/app/build/outputs/mapping/
-          destination: mapping/
+            bash ./scripts/saddler.sh
 
 workflows:
   version: 2
@@ -161,12 +150,6 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
-          filters:
-            branches:
-              only:
-                - master
-                - release-branch
+      - post_comment:
           requires:
-            - test
             - check
