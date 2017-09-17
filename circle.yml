@@ -135,8 +135,7 @@ jobs:
 
       - run:
           name: Comment to github
-          command: |
-            bash ./scripts/saddler.sh
+          command: ./scripts/saddler.sh
 
 workflows:
   version: 2
