@@ -131,7 +131,7 @@ jobs:
   post_comment:
     docker:
       - image: circleci/ruby:2.3
-      working_directory: /opt/workspace/
+    working_directory: /opt/workspace/
     steps:
       - run:
           name: Comment to github
