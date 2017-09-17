@@ -131,8 +131,8 @@ jobs:
   post_comment:
     docker:
       - image: circleci/ruby:2.3
+      working_directory: /opt/workspace/
     steps:
-
       - run:
           name: Comment to github
           command: scripts/saddler.sh
@@ -151,4 +151,4 @@ workflows:
             - build
       - post_comment:
           requires:
-            - check
+            - build
